@@ -191,3 +191,87 @@ function onclick_advanced(){
 	document.getElementById("div_advanced").style.display = display;
 	onclick_advanced_visible = !onclick_advanced_visible;
 }
+
+
+function parseResistance(x) {
+	x = x.trim().toLowerCase();
+	var r = NaN;
+	var m;
+	var regex;
+
+	regex = new RegExp("(\\d+)([kmr])(\\d+)", ["i"]);
+	m = regex.exec(x);
+	if (m != null)
+	{
+		r = parseFloat(m[1]);
+		if (m[2] == "m")
+		{
+			r = m[1] + "." + m[3];
+			r = parseFloat(m[1] + "." + m[3]);
+			if (isNaN(r)) {
+				return NaN;
+			}
+			return r * 1000000;
+		}
+		else if (m[2] == "k")
+		{
+			r = m[1] + "." + m[3];
+			r = parseFloat(m[1] + "." + m[3]);
+			if (isNaN(r)) {
+				return NaN;
+			}
+			return r * 1000;
+		}
+		else if (m[2] == "r")
+		{
+			r = m[1] + "." + m[3];
+			r = parseFloat(m[1] + "." + m[3]);
+			if (isNaN(r)) {
+				return NaN;
+			}
+			return r;
+		}
+	}
+	regex = new RegExp("(\\d+)(\\s*)([kmr])", ["i"]);
+	m = regex.exec(x);
+	if (m != null)
+	{
+		r = parseFloat(m[1]);
+		if (m[3] == "m")
+		{
+			r *= 1000000;
+		}
+		else if (m[3] == "k")
+		{
+			r *= 1000;
+		}
+		return r;
+	}
+	return parseFloat(x);
+}
+
+function resultlist_contains(list, obj) {
+	for (var i = 0; i < list.length; i++) {
+		if (list[i].r1.trim().toLowerCase() == obj.r1.trim().toLowerCase() && list[i].r2.trim().toLowerCase() == obj.r2.trim().toLowerCase()) {
+			if (list[i].ratio == obj.ratio && list[i].diff == obj.diff) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function vdiv(r1, r2){
+	return r2 / (r1 + r2);
+}
+
+function parallel(x, y){
+	if (x == 0) {
+		return y;
+	}
+	if (y == 0) {
+		return x;
+	}
+	return (x * y) / (x + y);
+}
+
